@@ -30,6 +30,9 @@ import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
+import Cookies from "js-cookie";
+
+
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
 
@@ -136,7 +139,12 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
+              onClick={() => 
+                {
+                  Cookies.set("loggedin", "true");
+                  router.push('/dashboard')
+                }
+                }
             >
               Login
             </Button>
