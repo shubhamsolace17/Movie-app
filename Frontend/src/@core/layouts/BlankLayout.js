@@ -26,10 +26,18 @@ const BlankLayoutWrapper = styled(Box)(({ theme }) => ({
 
 const BlankLayout = ({ children }) => {
   return (
-    <BlankLayoutWrapper className='layout-wrapper'>
+    <BlankLayoutWrapper className='layout-wrapper' style={{ backgroundColor: "#093545" }}>
+
       <Box className='app-content' sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
         {children}
+
       </Box>
+      <img
+        src='/images/pages/Login_bottom_image.png'
+        alt='Footer Image'
+        width={'100%'}
+        style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 111 }}
+      />
     </BlankLayoutWrapper>
   )
 }

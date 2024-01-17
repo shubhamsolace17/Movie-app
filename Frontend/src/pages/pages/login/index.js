@@ -38,6 +38,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { Centos } from 'mdi-material-ui'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -53,7 +54,8 @@ const LinkStyled = styled('a')(({ theme }) => ({
 const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
   '& .MuiFormControlLabel-label': {
     fontSize: '0.875rem',
-    color: theme.palette.text.secondary
+    // color: theme.palette.text.secondary
+    color: 'white'
   }
 }))
 
@@ -81,69 +83,76 @@ const LoginPage = () => {
   }
 
   return (
-    <Box className='content-center'>
-      <Card >
-        <CardContent sx={{ border:0 }}>
-          <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography
-              variant='h6'
-              sx={{
-                ml: 3,
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                fontSize: '1.5rem !important'
-              }}
-            >
-             Sign In
-            </Typography>
-          </Box>
-         
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }} />
-            <FormControl fullWidth>
-              <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
-              <OutlinedInput
-                label='Password'
-                value={values.password}
-                id='auth-login-password'
-                onChange={handleChange('password')}
-                type={values.showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      edge='end'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label='toggle password visibility'
-                    >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <Box
-              sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
-            >
-              <FormControlLabel control={<Checkbox />} label='Remember Me' />
-              <Link passHref href='/'>
-                <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
-              </Link>
+    <>
+      <Box className='content-center'>
+        <Card sx={{ backgroundColor: "#093545" }} >
+          <CardContent sx={{ border: 0 }}>
+            <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography
+                variant='h6'
+                sx={{
+                  ml: 3,
+                  lineHeight: 1,
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  fontSize: '2.5rem !important',
+                  color: 'white'
+                }}
+              >
+                Sign In
+              </Typography>
             </Box>
-            <Button
-              fullWidth
-              size='large'
-              variant='contained'
-              sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
-            >
-              Login
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </Box>
+
+            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+              <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4, backgroundColor: "#224957", borderRadius: "10px" }} InputLabelProps={{ style: { color: 'white' } }} />
+
+              <FormControl fullWidth>
+                <InputLabel htmlFor='auth-login-password' sx={{ color: 'white' }}>Password</InputLabel>
+                <OutlinedInput
+                  label='Password'
+                  value={values.password}
+                  id='auth-login-password'
+                  onChange={handleChange('password')}
+                  type={values.showPassword ? 'text' : 'password'}
+                  sx={{ backgroundColor: "#224957", borderRadius: "10px" }}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        aria-label='toggle password visibility'
+                      >
+                        {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <Box
+                sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', height: "24px", marginTop: '10px', marginBottom: '20px' }}
+              >
+                <FormControlLabel control={<Checkbox sx={{ color: "#224957", fontWeight: '900px', font: 'Montserrat' }} />} label='Remember Me' />
+                {/* <Link passHref href='/'>
+                  <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
+                </Link> */}
+              </Box>
+              <Button
+                fullWidth
+                size='large'
+                variant='contained'
+                sx={{ marginBottom: 7, padding: "15px 126px 15px 126px", borderRadius: "10px", height: "54px" }}
+                onClick={() => router.push('/')}
+              >
+                Login
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+      </Box>
+
+    </>
   )
 }
 LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
