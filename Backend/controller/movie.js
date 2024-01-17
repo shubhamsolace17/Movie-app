@@ -1,12 +1,12 @@
 const Movie = require('../model/movie');
 
+/******** CREATE MOVIE FUNCTION */
 exports.createMovie = async(req, res) =>{
     try {
-        console.log("user123", req.user);
-        const { title,  publishingYear, poster } = req.body;
+        const { title,  publishingYear } = req.body;
   
-      if (!(title && publishingYear && poster )) {
-        res.status(400).send("All input is required");
+      if (!(title && publishingYear )) {
+        res.status(400).send("title and  publishingYear are required");
       }
   
       
@@ -18,7 +18,7 @@ exports.createMovie = async(req, res) =>{
       const movieInfo = {
         title,
         publishingYear,
-        poster,
+        poster:req.file.originalname,
       }
       movieInfo.userId = req.user.user_id;
       const movie = await Movie.create(movieInfo);
@@ -27,4 +27,95 @@ exports.createMovie = async(req, res) =>{
         res.status(500).json({success: false, error:error})
         console.log(error)
     }
-}
+};
+
+/******** UPDATE MOVIE FUNCTION ********/
+exports.updateMovie = async (req, res) => {
+    try {
+      const updateData = {
+        title: req.body.title,
+        publishingYear: req.body.publishingYear,
+      };
+      if (req.file) {
+        updateData.poster = req.file.originalname;
+      }
+        const updatedMovie = await Movie.updateOne(
+          { _id: req.params.id },
+          updateData
+        );
+        if (updatedMovie) {
+          res.status(200).json({
+            success: true,
+            message: "Movie updated successfully",
+            updatedMovie,
+          });
+        }
+      
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error,
+      });
+    }
+  };
+
+  /******** GET ALL MOVIE LIST OF A USER FUNCTION **********/
+
+  exports.getAllMovieList = async(req, res)=>{
+    try {        
+        const movieList = await Movie.find({userId:req.user.user_id, status:1});
+        if(movieList){
+            res.status(200).json({success: true, message:"Movie List",movieList: movieList})
+        }else{
+            res.status(200).json({success: true, message:"No data found",movieDetail: []})
+
+        }
+        
+    } catch (error) {
+        console.log("error555", error)
+        res.status(500).json({success: false, message:error})
+    }
+  }
+
+  /******* GET SINGLE MOVIE BY ID *********/
+
+  exports.getMovieById = async(req, res)=>{
+    try {
+        const movieDetail = await Movie.findOne({_id:req.params.id , status:1});
+        if(movieDetail){
+            res.status(200).json({success: true, message:"MovieDetails",movieDetail: movieDetail})
+        }else{
+            res.status(200).json({success: true, message:"No data found",movieDetail: []})
+        }
+        
+    } catch (error) {
+        res.status(500).json({success: false, message:error})
+    }
+  }
+
+  /******* DELETE MOVIE *******/
+  exports.deleteMovie = async (req, res) => {
+    try {
+      const updateData = {
+        status:0
+      };
+      
+        const deletedMovie = await Movie.updateOne(
+          { _id: req.params.id },
+          updateData
+        );
+        if (deletedMovie) {
+          res.status(200).json({
+            success: true,
+            message: "Movie deleted successfully",
+           
+          });
+        }
+      
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error,
+      });
+    }
+  };
