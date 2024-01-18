@@ -36,7 +36,7 @@ const BlankLayout = ({ children }) => {
         src='/images/pages/Login_bottom_image.png'
         alt='Footer Image'
         width={'100%'}
-        style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 111 }}
+        style={{ position: 'fixed', bottom: 0, left: 0, right: 0, height: 111 }}
       />
     </BlankLayoutWrapper>
   )

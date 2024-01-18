@@ -46,7 +46,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
     }
 }))
 
-const MovieScreen = ({ pageTitle, isEdit, title, year }) => {
+const MovieScreen = ({ pageTitle, isEdit, title, year,onSubmit }) => {
     const [values, setValues] = useState({
         title: '',
         year: ''
@@ -61,8 +61,8 @@ const MovieScreen = ({ pageTitle, isEdit, title, year }) => {
         year: Yup.string().required('year is required')
     })
     const _onSubmit = async (values, resetForm, e) => {
-        e.preventDefault(); // Prevent the default form submission behavior
         console.log('________________--', values, resetForm);
+        onSubmit(values)
         // Your form submission logic here
     }
 
@@ -89,7 +89,6 @@ const MovieScreen = ({ pageTitle, isEdit, title, year }) => {
 
                     /* and other goodies */
                 }) => (
-                    <form onSubmit={handleSubmit}>
                         <div className='content-center' style={{
                             display: "flex", width: "100%", flexDirection: "column", alignItems: "flex-start",
                             justifyContent: "space-evenly",
@@ -139,7 +138,7 @@ const MovieScreen = ({ pageTitle, isEdit, title, year }) => {
                                                         fullWidth
                                                         size='large'
                                                         variant='outlined'
-                                                        sx={{ marginBottom: 7, borderRadius: "10px", height: "54px" }}
+                                                        sx={{ marginBottom: 7,color:'#fff',borderColor:"#fff", borderRadius: "10px", height: "54px" }}
                                                     // onClick={() => router.push('/')}
                                                     >
                                                         Cancel
@@ -162,7 +161,6 @@ const MovieScreen = ({ pageTitle, isEdit, title, year }) => {
                                 </div>
                             </div>
                         </div >
-                    </form>
                 )}
             </Formik>
 

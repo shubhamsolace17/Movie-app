@@ -12,7 +12,6 @@ import { CacheProvider } from '@emotion/react'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Component Imports
-import UserLayout from 'src/layouts/UserLayout'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
 
 // ** Contexts
@@ -26,6 +25,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -47,15 +47,15 @@ const App = props => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // Variables
-  const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+  const getLayout = Component.getLayout ?? (page => <BlankLayout>{page}</BlankLayout>)
 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>{`${themeConfig.templateName} - MOVIE APP`}</title>
+        <title>{` MOVIE APP`}</title>
         <meta
           name='description'
-          content={`${themeConfig.templateName} – MOVIE APP`}
+          content={`MOVIE APP`}
         />
         <meta name='keywords' content='MOVIE APP' />
         <meta name='viewport' content='initial-scale=1, width=device-width' />
