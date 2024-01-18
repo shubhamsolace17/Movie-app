@@ -1,4 +1,5 @@
 require('./config/database').connect();
+const { ValidationError } = require('express-validation');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT;
@@ -22,5 +23,5 @@ app.use(function (err, req, res, next) {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
+    console.log(`Server is running on port: ${PORT}`);z
 })
