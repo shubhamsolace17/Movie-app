@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const url = request.nextUrl.clone();
   let isLogin = request.cookies.get("loggedin");
-  if (!isLogin) {
+  if (isLogin === 'false') {
     if (request.nextUrl.pathname.startsWith("/dashboard")) {
       url.pathname = "/login";
       return NextResponse.redirect(url);

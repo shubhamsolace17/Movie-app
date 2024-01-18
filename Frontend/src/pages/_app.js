@@ -12,7 +12,6 @@ import { CacheProvider } from '@emotion/react'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Component Imports
-import UserLayout from 'src/layouts/UserLayout'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
 
 // ** Contexts
@@ -53,10 +52,10 @@ const App = props => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>{`${themeConfig.templateName} - MOVIE APP`}</title>
+        <title>{` MOVIE APP`}</title>
         <meta
           name='description'
-          content={`${themeConfig.templateName} – MOVIE APP`}
+          content={`MOVIE APP`}
         />
         <meta name='keywords' content='MOVIE APP' />
         <meta name='viewport' content='initial-scale=1, width=device-width' />

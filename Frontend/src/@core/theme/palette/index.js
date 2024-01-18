@@ -1,6 +1,6 @@
 const DefaultPalette = (mode, themeColor) => {
   // ** Vars
-  const lightColor = '108, 210, 126'
+  const lightColor = '255, 255, 255'
   const darkColor = '231, 227, 252'
   const mainColor = mode === 'light' ? lightColor : darkColor
 
