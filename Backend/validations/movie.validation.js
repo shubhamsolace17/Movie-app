@@ -11,7 +11,7 @@ module.exports = {
         params: Joi.object({}).optional(),
         query: Joi.object({}).optional(),
         headers: Joi.object({
-            'Authorization': commonValidations.stringRequired
+            'authorization': commonValidations.stringRequired
         }).required()
     },
     updateMovie: {
@@ -23,7 +23,7 @@ module.exports = {
         params: Joi.object({}).optional(),
         query: Joi.object({}).optional(),
         headers: Joi.object({
-            'Authorization': commonValidations.stringRequired
+            'authorization': commonValidations.stringRequired
         }).required()
     },
     deleteMovie: {
@@ -31,7 +31,7 @@ module.exports = {
         params: Joi.object({ id: commonValidations.objectIdRequired }).optional(),
         query: Joi.object({}).optional(),
         headers: Joi.object({
-            'Authorization': commonValidations.stringRequired
+            'authorization': commonValidations.stringRequired
         }).required()
     },
     movieList: {
@@ -43,7 +43,7 @@ module.exports = {
         params: Joi.object({}).optional(),
         query: Joi.object({}).optional(),
         headers: Joi.object({
-            'Authorization': commonValidations.stringRequired
+            'authorization': commonValidations.stringRequired
         }).required()
     },
     getMovie: {
@@ -51,7 +51,7 @@ module.exports = {
         params: Joi.object({ id: commonValidations.objectIdRequired }).required(),
         query: Joi.object({}).optional(),
         headers: Joi.object({
-            'Authorization': commonValidations.stringRequired
+            'authorization': commonValidations.stringRequired
         }).required()
     }
 };
