@@ -7,11 +7,12 @@ const swaggerUI = require("swagger-ui-express");
 const userRoute = require('./route/user');
 const movieRoute = require('./route/movie');
 const YAML = require("yamljs");
-var path = require("path");
-var swagger_path = YAML.load(path.resolve(__dirname, "./swagger.yaml"));
+const path = require("path");
+const swagger_path = YAML.load(path.resolve(__dirname, "./swagger.yaml"));
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swagger_path));
 app.use(express.json());
+app.use(express.static('./uploads'));
 app.use("/api/user", userRoute);
 app.use("/api/movie", movieRoute);
 
