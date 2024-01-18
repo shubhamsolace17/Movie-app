@@ -14,7 +14,13 @@ app.use(express.json());
 app.use("/api/user", userRoute);
 app.use("/api/movie", movieRoute);
 
+app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+        return res.status(err.statusCode).json(err)
+    }
+    return res.status(500).json(err)
+})
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 })
