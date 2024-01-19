@@ -12,7 +12,8 @@ const swagger_path = YAML.load(path.resolve(__dirname, "./swagger.yaml"));
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swagger_path));
 app.use(express.json());
-app.use(express.static('./uploads'));
+//app.use(express.static('./uploads'));
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 app.use("/api/user", userRoute);
 app.use("/api/movie", movieRoute);
 
