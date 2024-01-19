@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 
-const  MONGO_URI  = process.env.MONGO_URI;
+const  MONGO_URI  = "mongodb+srv://arun:oClBIPfdcEoGFMgM@cluster123.3t52yqs.mongodb.net/?retryWrites=true&w=majority";
 
 exports.connect = () => {
   // Connecting to the database
@@ -15,6 +15,6 @@ exports.connect = () => {
     })
     .catch((error) => {
       console.log("database connection failed. exiting now...");
-      console.error(error);
+      console.error('error',error);
     });
 };
