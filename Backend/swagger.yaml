@@ -1,0 +1,327 @@
+swagger: "2.0"
+info:
+  title: "Movie Collection Swagger Doc"
+  description: "This is the documentation for all API's Information"
+  version: "1.0"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  servers:
+    -url: "http://localhost:3000/"
+    description: "Local Server"
+
+schemes:
+  - "http"
+  - "https"
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /api/movie/create-movie:
+    post:
+      tags:
+      - "Create Movie"
+      security:
+        - Bearer: []
+      summary: "create movie"
+      consumes:
+        - "multipart/form-data"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "formData"
+          name: "poster"
+          type: "file"
+        - in: "formData"
+          name: "title"
+          type: "string"
+          example: "Avengers 2"
+        - in: "formData"
+          name: "publishingYear"
+          type: "number"
+          example: "2009"
+        
+      responses:
+        201:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "success"
+              message:
+                type: "string"
+                example: "movie created successfully"
+        500:
+          description: "Internal server error"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "false"
+              message:
+                type: "string"
+                example: "Error to create movie"
+
+  /api/movie/update-movie/{id}:
+    patch:
+      tags:
+      - "Update Movie"
+      security:
+        - Bearer: []
+      summary: "update movie"
+      consumes:
+        - "multipart/form-data"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+        - in: "formData"
+          name: "poster"
+          type: "file"
+        - in: "formData"
+          name: "title"
+          type: "string"
+          example: "Test title"
+        - in: "formData"
+          name: "publishingYear"
+          type: "number"
+          example: "2007"
+
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "success"
+              message:
+                type: "string"
+                example: "movie updated successfully"
+        500:
+          description: "Internal server error"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "false"
+              message:
+                type: "string"
+                example: "Error to update movie"
+  
+  /api/movie/movie-by-id/{id}:
+    get:
+      tags:
+      - "Get single movie"
+      security:
+        - Bearer: []
+      summary: "movie detail"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+        
+
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "success"
+              message:
+                type: "string"
+                example: "movie detail"
+        500:
+          description: "Internal server error"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "false"
+              message:
+                type: "string"
+                example: "Error to get movie detail"
+
+  /api/movie/delete-movie/{id}:
+    patch:
+      tags:
+      - "Delete movie"
+      security:
+        - Bearer: []
+      summary: "delete movie"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+        
+
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "success"
+              message:
+                type: "string"
+                example: "movie deleted"
+        500:
+          description: "Internal server error"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "false"
+              message:
+                type: "string"
+                example: "Error to delete movie"
+
+  /api/user/user-registration:
+    post:
+      tags:
+      - "User Registration"
+      security:
+        - Bearer: []
+      summary: "user registration"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        schema:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+              example: "Roy"
+            email:
+              type: "string"
+              example: "roy@yopmail.com"
+            password:
+              type: "string"
+              example: "roy@123"
+            
+      responses:
+        "200":
+          description: "User registered successfully"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "boolean"
+                example: true
+              message:
+                type: "string"
+                example: "User registered successfully"
+              data:
+                type: "array"
+        "500":
+          description: "Invalid input"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "boolean"
+                example: false
+              message:
+                type: "string"
+                example: "error in to user registration"
+              data:
+                type: "array"
+                items:
+                  type: string
+
+  /api/user/user-signin:
+    post:
+      tags:
+      - "User SignIn"
+      security:
+        - Bearer: []
+      summary: "user signin"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        schema:
+          type: "object"
+          properties:
+            email:
+              type: "string"
+              example: "roy@yopmail.com"
+            password:
+              type: "string"
+              example: "roy@123"
+            
+      responses:
+        "200":
+          description: "User signin successfully"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "boolean"
+                example: true
+              message:
+                type: "string"
+                example: "User signin successfully"
+              data:
+                type: "array"
+        "500":
+          description: "Invalid input"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "boolean"
+                example: false
+              message:
+                type: "string"
+                example: "error in to user signin"
+              data:
+                type: "array"
+                items:
+                  type: string
