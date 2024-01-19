@@ -63,7 +63,7 @@ const LoginPage = () => {
     password: "",
     showPassword: false,
   });
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // ** Hook
   const router = useRouter();
@@ -79,20 +79,24 @@ const LoginPage = () => {
   };
 
   const onSubmit = async (val) => {
-    // await _login(data)
-    //   .then((response) => {
-    //     if (response?.success) {
-    //       setLoading(false);
-    //       Cookies.set("loggedin", "true");
-    //       router.push("/dashboard");
-    //     } else {
-    //       setLoading(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     alert("Error!", err);
-    //   });
+    const data = {
+      email: "sam@yopmail.com",
+      password: "sam@123"
+    }
+    await _login(data)
+      .then((response) => {
+        if (response?.success) {
+          setLoading(false);
+          Cookies.set("loggedin", "true");
+          router.push("/dashboard");
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert("Error!", err);
+      });
     Cookies.set("loggedin", "true");
     router.push("/dashboard");
   };

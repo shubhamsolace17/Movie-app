@@ -1,23 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-const baseStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px",
-    borderWidth: 2,
-    borderRadius: 10,
-    height: "504px",
-    width: "473px",
-    borderColor: "#eeeeee",
-    borderStyle: "dashed",
-    backgroundColor: "#224957",
-    color: "#bdbdbd",
-    transition: "border .3s ease-in-out",
-    justifyContent: "center",
-};
-
 const activeStyle = {
     borderColor: "#2196f3",
 };
@@ -30,7 +13,23 @@ const rejectStyle = {
     borderColor: "#ff1744",
 };
 
-function DropzoneComponent(props) {
+function DropzoneComponent({ onChange, error, isEdit, image }) {
+    const baseStyle = {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "20px",
+        borderWidth: 2,
+        borderRadius: 10,
+        height: "504px",
+        width: "473px",
+        borderColor: error ? "#ff1744" : "#eeeeee",
+        borderStyle: "dashed",
+        backgroundColor: "#224957",
+        color: error ? "#ff1744" : "#bdbdbd",
+        transition: "border .3s ease-in-out",
+        justifyContent: "center",
+    };
     const [files, setFiles] = useState([]);
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -42,8 +41,8 @@ function DropzoneComponent(props) {
             )
         );
 
-        props.onChange(acceptedFiles[0]);
-    }, []);
+        onChange(acceptedFiles[0]);
+    }, [onChange]);
 
     const {
         getRootProps,
@@ -63,7 +62,7 @@ function DropzoneComponent(props) {
             ...(isDragAccept ? acceptStyle : {}),
             ...(isDragReject ? rejectStyle : {}),
         }),
-        [isDragActive, isDragReject, isDragAccept]
+        [baseStyle, isDragActive, isDragReject, isDragAccept]
     );
 
     const thumbs = files.map((file) => (
@@ -72,7 +71,7 @@ function DropzoneComponent(props) {
                 width={"100px"}
                 height={"100px"}
                 style={{ borderRadius: 10 }}
-                src={file.preview}
+                src={isEdit && files.length ? file.preview : image}
                 alt={file.name}
             />
         </div>
@@ -90,7 +89,13 @@ function DropzoneComponent(props) {
         <section>
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <div>Drag and drop your images here.</div>
+                <div>
+                    {error ? (
+                        <p>Error: {error}</p>
+                    ) : (
+                        <div>Drag and drop your images here.</div>
+                    )}
+                </div>
             </div>
             <aside>{thumbs}</aside>
         </section>

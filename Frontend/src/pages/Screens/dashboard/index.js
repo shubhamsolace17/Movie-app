@@ -17,7 +17,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { useRouter } from 'next/router';
 import Cookies from "js-cookie";
 import { useEffect } from "react";
-import { _getMovies } from "src/services/api";
+import { _getAllMovies, _getMovies } from "src/services/api";
 import { useState } from "react";
 
 
@@ -28,9 +28,15 @@ export const MovieList = ({ movies }) => {
       <Grid container spacing={3}>
         {movies.map((movie, index) => (
           <Grid item xs={12} sm={6} md={3} lg={3} key={index}>
-            <Card style={{ backgroundColor: "#002B39", height: "auto" }} onClick={()=>{
-              router.push('/update-movie')
+            <Card style={{ backgroundColor: "#002B39", height: "auto" }} onClick={() => {
+              const params = { movieId: movie._id };
+              router.push({
+                pathname: '/update-movie',
+                query: params,
+              });
+
             }}>
+
               <CardMedia
                 component="img"
                 height="200"
@@ -46,7 +52,7 @@ export const MovieList = ({ movies }) => {
                   variant="h5"
                   component="div"
                 >
-                  {movie.title}
+                  {movie?.title}
                 </Typography>
                 <Typography
                   style={{ color: "#fff" }}
@@ -54,7 +60,7 @@ export const MovieList = ({ movies }) => {
                   variant="h5"
                   component="div"
                 >
-                  2021
+                  {movie?.publishingYear}
                 </Typography>
               </CardContent>
             </Card>
@@ -67,8 +73,8 @@ export const MovieList = ({ movies }) => {
 
 const Dashboard = () => {
   const router = useRouter();
-  const [moviesData,setMovieData]= useState([]);
-  const [loading,setLoading] = useState(false);
+  const [moviesData, setMovieData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const movies = [
     { title: "Movie 1" /* other details */ },
     { title: "Movie 2" /* other details */ },
@@ -87,32 +93,32 @@ const Dashboard = () => {
     router.push('/add-movie')
   };
 
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     async function fetchData() {
       console.log("initialData")
-      await _getMovies()
-      .then((response) => {
-        if (response.success) {
-          console.log('response.data[0]', response.data)
-          if (response.data && response.data.length > 0) {
-            setMovieData(response.data)
-            setLoading(false);
+      await _getAllMovies()
+        .then((response) => {
+          if (response.success) {
+            console.log('response.data[0]', response.data)
+            if (response?.data && response?.data?.data?.length > 0) {
+              setMovieData(response?.data?.data)
+              setLoading(false);
+            } else {
+              setLoading(false);
+            }
           } else {
+            alert(response.message);
             setLoading(false);
           }
-        } else {
-          alert(response.message);
+        })
+        .catch((error) => {
           setLoading(false);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        alert(error);
-      });    
+          alert(error);
+        });
     }
     fetchData()
-  },[])
+  }, [])
 
   const handleLogout = () => {
     // Add logic for logout
@@ -149,7 +155,7 @@ const Dashboard = () => {
 
         <Box style={{ maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
           {/* MovieList aligned with Logout button */}
-          <MovieList movies={movies} />
+          <MovieList movies={moviesData} />
         </Box>
 
         <Box style={{ padding: "2%", display: "flex", justifyContent: "center" }}>

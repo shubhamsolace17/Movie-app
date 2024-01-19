@@ -25,6 +25,7 @@ import * as Yup from 'yup'; // Import Yup
 // ** Icons Imports
 import DropzoneComponent from 'src/@core/components/dropZone'
 import { Formik } from 'formik'
+import { Grid } from '@mui/material'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -46,19 +47,31 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
     }
 }))
 
-const MovieScreen = ({ pageTitle, isEdit, title, year,onSubmit }) => {
+const MovieScreen = ({ pageTitle, isEdit, title, year, onSubmit }) => {
     const [values, setValues] = useState({
         title: '',
-        year: ''
+        year: '',
+        image: null
     })
     const theme = useTheme()
     const router = useRouter()
 
-
+    console.log('::::::::', values)
 
     const _validationSchema = Yup.object().shape({
         title: Yup.string().required('title is required'),
-        year: Yup.string().required('year is required')
+        year: Yup.string().required('year is required'),
+        image: Yup.mixed()
+            .required('Image is required')
+            .test('fileType', 'Invalid file format. Only images are allowed.', (value) => {
+                if (!value) {
+                    return false; // No file selected
+                }
+
+                const supportedFormats = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
+
+                return supportedFormats.includes(value.type);
+            })
     })
     const _onSubmit = async (values, resetForm, e) => {
         console.log('________________--', values, resetForm);
@@ -89,37 +102,53 @@ const MovieScreen = ({ pageTitle, isEdit, title, year,onSubmit }) => {
 
                     /* and other goodies */
                 }) => (
-                        <div className='content-center' style={{
-                            display: "flex", width: "100%", flexDirection: "column", alignItems: "flex-start",
-                            justifyContent: "space-evenly",
-                        }}>
-                            <Typography
-                                variant='h6'
-                                sx={{
-                                    textAlign: "center",
-                                    lineHeight: 1,
-                                    fontWeight: 600,
-                                    // textTransform: 'uppercase',
-                                    fontSize: '2.5rem !important',
-                                    color: 'white',
-                                    width: "50%",
-                                    // top: '120px',
-                                    left: '120px',
-                                    // paddingRight: 373,
-                                    // paddingLeft: 80
-                                }}
-                            >
-                                {pageTitle}
-                            </Typography>
-                            <div style={{
-                                display: "flex", width: "100%",
-                                justifyContent: "center"
-                            }}>
+                    <>
+                        <Typography
+                            variant='h6'
+                            sx={{
+                                textAlign: "center",
+                                lineHeight: 1,
+                                fontWeight: 600,
+                                // textTransform: 'uppercase',
+                                fontSize: '2.5rem !important',
+                                color: 'white',
+                                width: "50%",
+                                // top: '120px',
+                                left: '120px',
+                                // paddingRight: 373,
+                                // paddingLeft: 80
+                            }}
+                        >
+                            {pageTitle}
+                        </Typography>
+                        <Box className="content-center">
 
-                                <div style={{ width: "50%", display: 'flex', justifyContent: "center" }}>
-                                    <DropzoneComponent />
-                                </div>
-                                <div style={{ width: "50%" }}>
+                            {/* <Typography
+                            variant='h6'
+                            sx={{
+                                textAlign: "center",
+                                lineHeight: 1,
+                                fontWeight: 600,
+                                // textTransform: 'uppercase',
+                                fontSize: '2.5rem !important',
+                                color: 'white',
+                                width: "50%",
+                                // top: '120px',
+                                left: '120px',
+                                // paddingRight: 373,
+                                // paddingLeft: 80
+                            }}
+                        >
+                            {pageTitle}
+                        </Typography> */}
+                            <Grid container  >
+                                <Grid item xs={6} container justifyContent="center" alignItems="center">
+                                    <Grid item xs={2} >
+                                        <DropzoneComponent error={errors.image} onChange={(value) => setFieldValue('image', value)} />
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6}>
+
                                     <Card sx={{ backgroundColor: "#093545", padding: 0 }} >
                                         <CardContent sx={{ border: 0 }}>
                                             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
@@ -138,7 +167,7 @@ const MovieScreen = ({ pageTitle, isEdit, title, year,onSubmit }) => {
                                                         fullWidth
                                                         size='large'
                                                         variant='outlined'
-                                                        sx={{ marginBottom: 7,color:'#fff',borderColor:"#fff", borderRadius: "10px", height: "54px" }}
+                                                        sx={{ marginBottom: 7, color: '#fff', borderColor: "#fff", borderRadius: "10px", height: "54px" }}
                                                     // onClick={() => router.push('/')}
                                                     >
                                                         Cancel
@@ -158,9 +187,12 @@ const MovieScreen = ({ pageTitle, isEdit, title, year,onSubmit }) => {
                                             </form>
                                         </CardContent>
                                     </Card>
-                                </div>
-                            </div>
-                        </div >
+
+                                </Grid>
+                            </Grid>
+
+                        </Box>
+                    </>
                 )}
             </Formik>
 

@@ -5,9 +5,9 @@ export const _login = data => {
     return serviceV1.post(`${LOGIN_API_URL}`, data);
 };
 
-export const _getMovies = data => {
-    return serviceV1.get(`${GET_MOVIE_LIST_API_URL}`)
-}
+// export const _getMovies = data => {
+//     return serviceV1.get(`${GET_MOVIE_LIST_API_URL}`)
+// }
 
 export const _AddMovies = data => {
     return serviceV1.get(`${ADD_MOVIE_API_URL}`, data)
@@ -15,4 +15,13 @@ export const _AddMovies = data => {
 
 export const _upadteMovies = data => {
     return serviceV1.patch(`${UPDATE_MOVIE_API_URL}`, data)
+}
+
+export const _getAllMovies = () => {
+
+    return serviceV1.post(`${GET_MOVIE_LIST_API_URL}`)
+}
+
+export const _getSingleMovie = (id) => {
+    return serviceV1.post(`${GET_SINGLE_MOVIE_API_URL}${id}`)
 }
