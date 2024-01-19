@@ -47,11 +47,11 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
     }
 }))
 
-const MovieScreen = ({ pageTitle, isEdit, title, year, onSubmit }) => {
+const MovieScreen = ({ pageTitle, isEdit, value, onSubmit,isMobile }) => {
     const [values, setValues] = useState({
-        title: '',
-        year: '',
-        image: null
+        title: value?.title ? value?.title : '',
+        year: value?.year ? value?.year : '',
+        image: value?.image ? value?.image : null
     })
     const theme = useTheme()
     const router = useRouter()
@@ -61,17 +61,8 @@ const MovieScreen = ({ pageTitle, isEdit, title, year, onSubmit }) => {
     const _validationSchema = Yup.object().shape({
         title: Yup.string().required('title is required'),
         year: Yup.string().required('year is required'),
-        image: Yup.mixed()
+        image: Yup.string()
             .required('Image is required')
-            .test('fileType', 'Invalid file format. Only images are allowed.', (value) => {
-                if (!value) {
-                    return false; // No file selected
-                }
-
-                const supportedFormats = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
-
-                return supportedFormats.includes(value.type);
-            })
     })
     const _onSubmit = async (values, resetForm, e) => {
         console.log('________________--', values, resetForm);
@@ -113,15 +104,18 @@ const MovieScreen = ({ pageTitle, isEdit, title, year, onSubmit }) => {
                                 fontSize: '2.5rem !important',
                                 color: 'white',
                                 width: "50%",
-                                // top: '120px',
-                                left: '120px',
+                                top: '120px',
+                                left: '0px',
                                 // paddingRight: 373,
-                                // paddingLeft: 80
+                                paddingLeft: 30,
+                                position:"absolute",
+
                             }}
                         >
                             {pageTitle}
                         </Typography>
                         <Box className="content-center">
+                            
 
                             {/* <Typography
                             variant='h6'
@@ -144,7 +138,9 @@ const MovieScreen = ({ pageTitle, isEdit, title, year, onSubmit }) => {
                             <Grid container  >
                                 <Grid item xs={6} container justifyContent="center" alignItems="center">
                                     <Grid item xs={2} >
-                                        <DropzoneComponent error={errors.image} onChange={(value) => setFieldValue('image', value)} />
+                                        <DropzoneComponent isMobile={isMobile} image={isEdit ?  value.image : null} error={errors.image} onChange={(value) => {
+                                            setFieldValue('image', value)
+                                    }} />
                                     </Grid>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
@@ -168,7 +164,7 @@ const MovieScreen = ({ pageTitle, isEdit, title, year, onSubmit }) => {
                                                         size='large'
                                                         variant='outlined'
                                                         sx={{ marginBottom: 7, color: '#fff', borderColor: "#fff", borderRadius: "10px", height: "54px" }}
-                                                    // onClick={() => router.push('/')}
+                                                    onClick={() => router.push('/dashboard')}
                                                     >
                                                         Cancel
                                                     </Button>

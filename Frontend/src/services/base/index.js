@@ -4,9 +4,6 @@ import {  BASE_URL } from "../../constants/ApiUrl";
 
 const serviceConfig = {
   timeout: 45000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 };
 
 
@@ -22,13 +19,13 @@ const getServiceInstance = (baseURL) => {
   serviceInstance.isCancel = axios.isCancel;
 
   serviceInstance.interceptors.request.use(async (config) => {
-    const accessToken = JSON.parse(localStorage.getItem("token"));
-
+    const accessToken = localStorage.getItem("token");
+    console.log("acc",accessToken)
     const modifiedConfig = {
       ...config,
     };
     if (accessToken) {
-      modifiedConfig.headers['Authorization'] = `Token ${token}`;
+      modifiedConfig.headers['Authorization'] = `${accessToken}`;
       // modifiedConfig.headers['Token'] = `Bearer ${token}`
     } 
     return modifiedConfig;
@@ -36,7 +33,7 @@ const getServiceInstance = (baseURL) => {
 
   serviceInstance.interceptors.response.use(
     (response) => {
-      if (response.status == 200) {
+      if (response.status == 200 ||  response.status == 201) {
         return response.data;
       }
       return [];

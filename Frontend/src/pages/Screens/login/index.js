@@ -80,13 +80,15 @@ const LoginPage = () => {
 
   const onSubmit = async (val) => {
     const data = {
-      email: "sam@yopmail.com",
-      password: "sam@123"
+      email: val.email,
+      password: val.password
     }
     await _login(data)
       .then((response) => {
+        console.log("eesds",response)
         if (response?.success) {
           setLoading(false);
+          localStorage.setItem('token',response.userInfo.token)
           Cookies.set("loggedin", "true");
           router.push("/dashboard");
         } else {
@@ -97,8 +99,6 @@ const LoginPage = () => {
         setLoading(false);
         alert("Error!", err);
       });
-    Cookies.set("loggedin", "true");
-    router.push("/dashboard");
   };
   return (
     <>

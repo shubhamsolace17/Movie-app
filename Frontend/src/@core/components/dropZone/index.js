@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { BASE_URL } from "src/constants/ApiUrl";
 
 const activeStyle = {
     borderColor: "#2196f3",
@@ -13,7 +14,8 @@ const rejectStyle = {
     borderColor: "#ff1744",
 };
 
-function DropzoneComponent({ onChange, error, isEdit, image }) {
+function DropzoneComponent({ onChange, error, isEdit, image,isMobile }) {
+    console.log("isMobile",isMobile)
     const baseStyle = {
         display: "flex",
         flexDirection: "column",
@@ -21,8 +23,8 @@ function DropzoneComponent({ onChange, error, isEdit, image }) {
         padding: "20px",
         borderWidth: 2,
         borderRadius: 10,
-        height: "504px",
-        width: "473px",
+        height: isMobile ? '100%' : "504px",
+        width:  isMobile ? '50vw' : "473px",
         borderColor: error ? "#ff1744" : "#eeeeee",
         borderStyle: "dashed",
         backgroundColor: "#224957",
@@ -31,6 +33,18 @@ function DropzoneComponent({ onChange, error, isEdit, image }) {
         justifyContent: "center",
     };
     const [files, setFiles] = useState([]);
+
+
+    useEffect(() => {
+        if (image) {
+            setFiles([
+                {
+                    preview: `${BASE_URL}${image}`,
+                },
+            ]);
+        }
+    }, [image]);
+
 
     const onDrop = useCallback((acceptedFiles) => {
         setFiles(
@@ -52,7 +66,7 @@ function DropzoneComponent({ onChange, error, isEdit, image }) {
         isDragReject,
     } = useDropzone({
         onDrop,
-        accept: "image/jpeg, image/png",
+        accept: "image/jpeg, image/png, image/jpg",
     });
 
     const style = useMemo(
@@ -71,7 +85,7 @@ function DropzoneComponent({ onChange, error, isEdit, image }) {
                 width={"100px"}
                 height={"100px"}
                 style={{ borderRadius: 10 }}
-                src={isEdit && files.length ? file.preview : image}
+                src={file.preview}
                 alt={file.name}
             />
         </div>
@@ -85,6 +99,8 @@ function DropzoneComponent({ onChange, error, isEdit, image }) {
         [files]
     );
 
+    console.log("files",files)
+
     return (
         <section>
             <div {...getRootProps({ style })}>
@@ -97,7 +113,8 @@ function DropzoneComponent({ onChange, error, isEdit, image }) {
                     )}
                 </div>
             </div>
-            <aside>{thumbs}</aside>
+          
+                <aside>{thumbs}</aside>
         </section>
     );
 }
