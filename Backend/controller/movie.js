@@ -8,6 +8,8 @@ exports.createMovie = async (req, res) => {
     if (!(title && publishingYear)) {
       res.status(400).send("title and  publishingYear are required");
     }
+    console.log("testing server");
+    console.log("testing server");
 
 
     const oldMovie = await Movie.findOne({ title });
